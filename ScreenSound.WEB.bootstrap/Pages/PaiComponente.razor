@@ -1,0 +1,10 @@
+﻿@page "/paicomponente"
+
+<CascadingValue Value="Mensagem">
+    <h2 style="color: blue;">📌 @Mensagem</h2>
+    <FilhoComponente />
+</CascadingValue>
+
+@code {
+    private string Mensagem = "Valor definido no Pai";
+}

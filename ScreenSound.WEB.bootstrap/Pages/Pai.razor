@@ -1,0 +1,10 @@
+﻿@page "/pai"
+
+<h3>Componente Pai</h3>
+<Filho @bind-Value="ParentValue" />
+
+<p>Valor no Pai: @ParentValue</p>
+
+@code {
+    private string ParentValue { get; set; } = "Texto inicial";
+}
