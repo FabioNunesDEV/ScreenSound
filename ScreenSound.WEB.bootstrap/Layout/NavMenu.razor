@@ -1,59 +1,24 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">ScreenSound.WEB.bootstrap</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="CadastrarArtista">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Cadastrar Artista
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="EditarArtista">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Editar Artista
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="CadastrarMusica">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Cadastrar Musica
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="EditarMusica">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Editar Musica
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="MusicasPorArtista">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Musica por Artista
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="MusicasPorGenero">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Musica por Genero
-            </NavLink>
-        </div>
-    </nav>
+﻿  <!-- Sidebar -->
+<div>
+    <ul class="nav nav-pills nav-stacked">
+        <li><a href="#">🏠 Home</a></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="collapse" href="#artistasMenu">👥 Artistas <span class="caret"></span></a>
+            <ul id="artistasMenu" class="collapse">
+                <li><a href="#">Cadastrar</a></li>
+                <li><a href="#">Listar</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="collapse" href="#musicasMenu">🎵 Músicas <span class="caret"></span></a>
+            <ul id="musicasMenu" class="collapse">
+                <li><a href="#">Cadastrar</a></li>
+                <li><a href="#">Listar</a></li>
+            </ul>
+        </li>
+    </ul>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
 }
