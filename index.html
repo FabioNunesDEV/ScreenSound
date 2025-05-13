@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>ScreenSound</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <style>
+    body {
+      padding-top: 50px;
+    }
+    .navbar {
+      background-color: #222;
+      border: none;
+    }
+    .sidebar {
+      position: fixed;
+      top: 50px;
+      bottom: 0;
+      left: 0;
+      width: 200px;
+      background-color: #2b2b2b;
+      padding: 0;
+      color: white;
+    }
+    .sidebar ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .sidebar a {
+      display: block;
+      padding: 10px 15px;
+      color: white;
+      text-decoration: none;
+    }
+    .sidebar a:hover {
+      background-color: #444;
+    }
+    .main {
+      margin-left: 200px;
+      padding: 20px;
+      background: linear-gradient(to bottom, #9b59b6, #2c003e);
+      color: white;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra superior -->
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">🎵 ScreenSound</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#">🏠 Home</a></li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="collapse" href="#artistasMenu">👥 Artistas <span class="caret"></span></a>
+        <ul id="artistasMenu" class="collapse">
+          <li><a href="#">Cadastrar</a></li>
+          <li><a href="#">Listar</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="collapse" href="#musicasMenu">🎵 Músicas <span class="caret"></span></a>
+        <ul id="musicasMenu" class="collapse">
+          <li><a href="#">Cadastrar</a></li>
+          <li><a href="#">Listar</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="main">
+    <h1>Hello, world!</h1>
+    <p>Welcome to your new app.</p>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</body>
+</html>
