@@ -8,9 +8,9 @@ namespace ScreenSound.WEB.bootstrap.Services;
 public class ArtistasAPI
 {
     private readonly HttpClient _httpClient;
-    public ArtistasAPI(IHttpClientFactory factory)
+    public ArtistasAPI(HttpClient httpClient)
     {
-        _httpClient = factory.CreateClient("API");
+        _httpClient = httpClient;
     }
 
     public async Task<ICollection<ArtistaResponse>?> GetArtistasAsync()

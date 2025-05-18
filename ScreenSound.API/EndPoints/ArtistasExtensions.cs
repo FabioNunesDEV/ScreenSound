@@ -21,19 +21,19 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
 
-        app.MapPost("/Artistas", async ([FromServices] IHostEnvironment env, [FromServices] DAL<Artista> dal, [FromBody] ArtistaRequest artistaRequest) =>
+        app.MapPost("/Artistas", async (
+            [FromServices] IHostEnvironment env, 
+            [FromServices] DAL<Artista> dal,
+            [FromServices] StorageService storageService,
+            [FromBody] ArtistaRequest artistaRequest) =>
         {
             var nome = artistaRequest.nome.Trim();
-            var imagemArtista = DateTime.Now.ToString("ddMMyyyyhhss") + "." + nome + ".jpeg";
-            var path = Path.Combine(env.ContentRootPath, "wwwroot", "FotoPerfil", imagemArtista);
 
-            using MemoryStream ms = new MemoryStream(Convert.FromBase64String(artistaRequest.fotoPerfil!));
-            using FileStream fs = new(path, FileMode.Create);
-            await ms.CopyToAsync(fs);
+            var caminhoImagem = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, artistaRequest.nome);
 
             var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
             {
-                FotoPerfil = $"/FotoPerfil/{imagemArtista}"
+                FotoPerfil = caminhoImagem // ou ajuste conforme o caminho salvo
             };
 
             dal.Adicionar(artista);
