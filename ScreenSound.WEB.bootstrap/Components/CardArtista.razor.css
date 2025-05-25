@@ -1,0 +1,55 @@
+﻿.artista-card {
+    width: 403.6px;
+    height: 572.58px;
+    background: #353340;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    padding: 24px 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #3a3a4d;
+}
+
+.artista-img {
+    width: 379.5px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 6px 6px 0 0;
+}
+
+.artista-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 24px 0 0;
+}
+
+.artista-nome {
+    color: #fff;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+.artista-bio {
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 24px;
+    flex: 1;
+}
+
+.btn-artista-detalhes {
+    background: none;
+    border: 1px solid #ffc107;
+    color: #ffc107;
+    font-weight: 600;
+    border-radius: 3px;
+    padding: 6px 18px;
+    transition: background 0.2s;
+}
+
+    .btn-artista-detalhes:hover {
+        background: #ffc107;
+        color: #353340;
+    }

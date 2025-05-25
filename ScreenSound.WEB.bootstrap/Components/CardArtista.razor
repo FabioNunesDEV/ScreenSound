@@ -1,0 +1,16 @@
+﻿@using ScreenSound.WEB.bootstrap.Requests
+@inherits LayoutComponentBase
+
+<div class="artista-card">
+    <img class="artista-img" src="@Artista.fotoPerfil" alt="@Artista.nome" />
+    <div class="artista-card-body">
+        <h4 class="artista-nome">@Artista.nome</h4>
+        <p class="artista-bio">@Artista.bio</p>
+        <button class="btn btn-artista-detalhes">DETALHES</button>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public ArtistaRequest Artista { get; set; }
+}
