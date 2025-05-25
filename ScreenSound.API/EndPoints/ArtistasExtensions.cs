@@ -20,7 +20,7 @@ public static class ArtistasExtensions
 
             return Results.Ok(artista);
         });
-
+       
         app.MapPost("/Artistas", async (
             [FromServices] IHostEnvironment env, 
             [FromServices] DAL<Artista> dal,
@@ -29,7 +29,7 @@ public static class ArtistasExtensions
         {
             var nome = artistaRequest.nome.Trim();
 
-            var caminhoImagem = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, artistaRequest.nome);
+            var caminhoImagem = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, "", artistaRequest.nome);
 
             var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
             {
