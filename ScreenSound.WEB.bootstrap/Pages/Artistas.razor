@@ -3,6 +3,27 @@
 
 <h3>Artistas</h3>
 
+@if (erro != null)
+{
+    <div class="alert alert-danger">@erro</div>
+}
+else if (artistasPorPagina == null)
+{
+    <p>Carregando...</p>
+}
+else if (!artistasPorPagina.Any())
+{
+    <p>Nenhum artista encontrado.</p>
+}
+else
+{
+    <ul>
+        @foreach (var artista in artistasPorPagina)
+        {
+            <li>@artista.Nome</li>
+        }
+    </ul>
+}
 
 @code {
     private ICollection<ArtistaResponse>? artistas;
@@ -10,23 +31,36 @@
     private int totalItens;
     private int totalPaginas;
     private ICollection<ArtistaResponse>? artistasPorPagina;
+    private string? erro;
 
     protected override async Task OnInitializedAsync()
     {
-        artistas = await artistasAPI.GetArtistasAsync();
-        if (artistas is not null)
+        try
         {
-            artistas = artistas.OrderByDescending(a => a.Id).ToList();
-            totalItens = artistas.Count();
-            totalPaginas = Convert.ToInt32(Math.Ceiling((totalItens * 1.0) / tamanho));
-            this.PaginaMudou(1);
+            artistas = await artistasAPI.GetArtistasAsync();
+            if (artistas is not null)
+            {
+                artistas = artistas.OrderByDescending(a => a.Id).ToList();
+                totalItens = artistas.Count();
+                totalPaginas = Convert.ToInt32(Math.Ceiling((totalItens * 1.0) / tamanho));
+                this.PaginaMudou(1);
+            }
+            else
+            {
+                erro = "Não foi possível recuperar os artistas.";
+            }
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao carregar artistas: {ex.Message}";
         }
     }
 
     private void PaginaMudou(int pageNumber)
     {
+        if (artistas == null) return;
         var indice = pageNumber - 1;
-        artistasPorPagina = artistas!
+        artistasPorPagina = artistas
             .Skip(tamanho * indice)
             .Take(tamanho)
             .ToList();

@@ -21,7 +21,7 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
        
-        app.MapPost("/Artistas", async (
+        app.MapPost("/artistas", async (
             [FromServices] IHostEnvironment env, 
             [FromServices] DAL<Artista> dal,
             [FromServices] StorageService storageService,
