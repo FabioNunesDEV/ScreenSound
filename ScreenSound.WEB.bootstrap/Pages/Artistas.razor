@@ -17,12 +17,14 @@ else if (!artistasPorPagina.Any())
 }
 else
 {
-    <ul>
+    <div class="row">
         @foreach (var artista in artistasPorPagina)
         {
-            <li>@artista.Nome</li>
+            <div class="col-md-4">
+                <CardArtista Artista="@(new ArtistaRequest (artista.Nome, artista.Bio, artista.FotoPerfil))" />
+            </div>
         }
-    </ul>
+    </div>
 }
 
 @code {
