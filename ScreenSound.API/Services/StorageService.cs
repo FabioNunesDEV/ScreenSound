@@ -43,5 +43,36 @@ public class StorageService
         // Retorna caminho absoluto do arquivo salvo em disco.
         return caminhoCompleto;
     }
+
+    /// <summary>
+    /// Método para concatenar o caminho completo do card de um artista ou banda.
+    /// </summary>
+    /// <param name="nomeCard">Nome do arquivo Card no storage</param>
+    /// <returns>Retorna o caminho completo para o Card</returns>
+    public string ConcatenarCaminhoCompletoCard (string nomeCard)
+    {
+        var caminhoCompleto = Path.Combine(_storagePath, nomeCard);
+
+        return caminhoCompleto;
+    }
+
+    /// <summary>
+    /// Método para ler uma imagem do disco e retornar seu conteúdo em Base64.
+    /// </summary>
+    /// <param name="caminhoFisico">Caminho físico completo da imagem.</param>
+    /// <returns>String Base64 representando a imagem.</returns>
+    public async Task<string> ObterImagemBase64Async(string caminhoFisico)
+    {
+        if (!File.Exists(caminhoFisico))
+            throw new FileNotFoundException("Arquivo de imagem não encontrado.", caminhoFisico);
+
+        byte[] bytes;
+        await using (var fs = new FileStream(caminhoFisico, FileMode.Open, FileAccess.Read))
+        {
+            bytes = new byte[fs.Length];
+            await fs.ReadAsync(bytes, 0, (int)fs.Length);
+        }
+        return $"data:image/png;base64,{Convert.ToBase64String(bytes)}" ;
+    }
 }
 

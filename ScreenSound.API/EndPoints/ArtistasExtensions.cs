@@ -3,10 +3,21 @@ public static class ArtistasExtensions
 {
     public static void AddEndPointsArtistas(this WebApplication app)
     {
-        app.MapGet("/artistas", ([FromServices] DAL<Artista> dal) =>
+        app.MapGet("/artistas", 
+            ([FromServices] DAL<Artista> dal, 
+            [FromServices] StorageService storageService) =>
         {
             var artistas = dal.Listar(a => a.Musicas);
-            return Results.Ok(artistas);
+
+            var resposta = artistas.Select(artista => new ArtistaBase64Response(
+                artista.Id,
+                artista.Nome,
+                artista.Bio,
+                storageService.ConcatenarCaminhoCompletoCard(artista.FotoPerfil),
+                storageService.ObterImagemBase64Async(storageService.ConcatenarCaminhoCompletoCard(artista.FotoPerfil)).Result
+            )).ToList();
+
+            return Results.Ok(resposta);
         });
 
         app.MapGet("/artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>

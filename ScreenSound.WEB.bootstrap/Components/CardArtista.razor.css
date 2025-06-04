@@ -1,19 +1,21 @@
 ﻿.artista-card {
-    width: 403.6px;
-    height: 572.58px;
+    width: 323px;
+    height: 458px;
     background: #353340;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    padding: 24px 0 0 24px;
+    padding: 19px 0 0 19px;
     display: flex;
     flex-direction: column;
     border: 1px solid #3a3a4d;
+    margin: 20px 20px 20px 20px;
+
 }
 
 .artista-img {
-    width: 379.5px;
-    height: 300px;
+    width: 304px;
+    height: 240px;
     object-fit: cover;
     border-radius: 6px 6px 0 0;
 }
@@ -22,20 +24,20 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 24px 24px 0 0;
+    padding: 19px 19px 10px 0;
 }
 
 .artista-nome {
     color: #fff;
-    font-size: 22px;
+    font-size: 18px;
     font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 13px;
 }
 
 .artista-bio {
     color: #fff;
-    font-size: 15px;
-    margin-bottom: 24px;
+    font-size: 12px;
+    margin-bottom: 19px;
     flex: 1;
 }
 
@@ -45,7 +47,7 @@
     color: #ffc107;
     font-weight: 600;
     border-radius: 3px;
-    padding: 6px 18px;
+    padding: 5px 14px;
     transition: background 0.2s;
 }
 

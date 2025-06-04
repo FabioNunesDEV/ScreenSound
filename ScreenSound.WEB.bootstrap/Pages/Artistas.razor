@@ -20,19 +20,19 @@ else
     <div class="row">
         @foreach (var artista in artistasPorPagina)
         {
-            <div class="col-md-4">
-                <CardArtista Artista="@(new ArtistaRequest (artista.Nome, artista.Bio, artista.FotoPerfil))" />
+            <div class="col-md-3">
+                <CardArtista Artista="@(new ArtistaBase64Response (artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil, artista.Base64))" />
             </div>
         }
     </div>
 }
 
 @code {
-    private ICollection<ArtistaResponse>? artistas;
+    private ICollection<ArtistaBase64Response>? artistas;
     private int tamanho = 8;
     private int totalItens;
     private int totalPaginas;
-    private ICollection<ArtistaResponse>? artistasPorPagina;
+    private ICollection<ArtistaBase64Response>? artistasPorPagina;
     private string? erro;
 
     protected override async Task OnInitializedAsync()

@@ -2,15 +2,15 @@
 @inherits LayoutComponentBase
 
 <div class="artista-card">
-    <img class="artista-img" src="@Artista.fotoPerfil" alt="@Artista.nome" />
+    <img class="artista-img" src="@Artista.Base64" alt="@Artista.Nome" />
     <div class="artista-card-body">
-        <h4 class="artista-nome">@Artista.nome</h4>
-        <p class="artista-bio">@Artista.bio</p>
+        <h4 class="artista-nome">@Artista.Nome</h4>
+        <p class="artista-bio">@Artista.Bio</p>
         <button class="btn btn-artista-detalhes">DETALHES</button>
     </div>
 </div>
 
 @code {
     [Parameter]
-    public ArtistaRequest Artista { get; set; }
+    public ArtistaBase64Response Artista { get; set; }
 }

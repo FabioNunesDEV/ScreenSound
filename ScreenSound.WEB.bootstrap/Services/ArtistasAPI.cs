@@ -13,9 +13,9 @@ public class ArtistasAPI
         _httpClient = httpClient;
     }
 
-    public async Task<ICollection<ArtistaResponse>?> GetArtistasAsync()
+    public async Task<ICollection<ArtistaBase64Response>?> GetArtistasAsync()
     {
-        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaResponse>>("artistas");
+        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaBase64Response>>("artistas");
     }
 
     public async Task AddArtistaAsync(ArtistaRequest artista)
