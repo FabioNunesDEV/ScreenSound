@@ -18,6 +18,13 @@ else if (!artistasPorPagina.Any())
 else
 {
     <div class="row">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <div class="pull-right" style="margin-bottom: 10px;">
+                    <Paginador PaginaAtual="@paginaAtual" TotalPaginas="@totalPaginas" OnPaginaMudou="PaginaMudou" />
+                </div>
+            </div>
+        </div>
         @foreach (var artista in artistasPorPagina)
         {
             <div class="col-md-3">
@@ -32,6 +39,7 @@ else
     private int tamanho = 8;
     private int totalItens;
     private int totalPaginas;
+    private int paginaAtual = 1;
     private ICollection<ArtistaBase64Response>? artistasPorPagina;
     private string? erro;
 
@@ -58,13 +66,15 @@ else
         }
     }
 
-    private void PaginaMudou(int pageNumber)
+    private void PaginaMudou(int novaPagina)
     {
         if (artistas == null) return;
-        var indice = pageNumber - 1;
+        var indice = novaPagina - 1;
         artistasPorPagina = artistas
             .Skip(tamanho * indice)
             .Take(tamanho)
             .ToList();
+
+        paginaAtual = novaPagina;
     }
 }

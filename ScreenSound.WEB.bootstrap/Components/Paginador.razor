@@ -1,0 +1,31 @@
+﻿@code {
+    [Parameter] public int PaginaAtual { get; set; }
+    [Parameter] public int TotalPaginas { get; set; }
+    [Parameter] public EventCallback<int> OnPaginaMudou { get; set; }
+
+    private void IrParaPagina(int pagina)
+    {
+        if (pagina != PaginaAtual && pagina > 0 && pagina <= TotalPaginas)
+        {
+            OnPaginaMudou.InvokeAsync(pagina);
+        }
+    }
+}
+
+@if (TotalPaginas > 1)
+{
+    <ul class="pagination pagination-sm" style="margin:0;">
+        <li class="@(PaginaAtual == 1 ? "disabled" : "")">
+            <a href="javascript:void(0);" @onclick="() => IrParaPagina(PaginaAtual - 1)">&laquo;</a>
+        </li>
+        @for (int i = 1; i <= TotalPaginas; i++)
+        {
+            <li class="@(i == PaginaAtual ? "active" : "")">
+                <a href="javascript:void(0);" @onclick="() => IrParaPagina(i)">@i</a>
+            </li>
+        }
+        <li class="@(PaginaAtual == TotalPaginas ? "disabled" : "")">
+            <a href="javascript:void(0);" @onclick="() => IrParaPagina(PaginaAtual + 1)">&raquo;</a>
+        </li>
+    </ul>
+}
