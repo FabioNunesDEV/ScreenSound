@@ -20,8 +20,9 @@
         </li>
         @for (int i = 1; i <= TotalPaginas; i++)
         {
+            var pagina = i;
             <li class="@(i == PaginaAtual ? "active" : "")">
-                <a href="javascript:void(0);" @onclick="() => IrParaPagina(i)">@i</a>
+                <a href="javascript:void(0);" @onclick="() => IrParaPagina(pagina)">@pagina</a>
             </li>
         }
         <li class="@(PaginaAtual == TotalPaginas ? "disabled" : "")">

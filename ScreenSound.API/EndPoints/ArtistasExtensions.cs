@@ -44,7 +44,7 @@ public static class ArtistasExtensions
 
             var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
             {
-                FotoPerfil = caminhoImagem // ou ajuste conforme o caminho salvo
+                FotoPerfil = caminhoImagem 
             };
 
             dal.Adicionar(artista);
