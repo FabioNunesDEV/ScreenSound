@@ -15,54 +15,37 @@ public class StorageService
     }
 
     /// <summary>
-    /// Método para salvar uma imagem em formato Base64 no caminho de armazenamento definido.
+    /// Método para salvar uma imagem .jpg em formato Base64 no caminho de armazenamento definido.
     /// </summary>
-    /// <param name="base64">base64 da imagem passada por parametro.</param>
-    /// <param name="extensao">Extensão da imagem passada por parametro.</param>
-    /// <param name="nomeArtista">nome do artista ou banda para ser usado no nome do arquivo.</param>
-    /// <returns>Retorna o caminho absoluto completo do arquivo com a imagem do artista.</returns>
-    public async Task<string> SalvarImagemBase64Async(string base64, string extensao , string nomeArtista)
+    /// <param name="base64">base64 da imagem .jpg passada por parametro.</param>
+    /// <param name="nomeArtista">Nome do Artista para criar o card.</param>
+    public async Task<string> SalvarImagemBase64Async(string base64 , string nomeArtista)
     {
-        // normaliza o nome do artista para evitar caracteres especiais e espaços.
-        string nomeNormalizado = Util.NormalizarString(nomeArtista);
+        string nomeMormalizado = Util.NormalizarString(nomeArtista);
 
-        // Verifica se o caminho de armazenamento existe, caso não exista, cria o diretório.
-        if (!Directory.Exists(_storagePath))
-            Directory.CreateDirectory(_storagePath);
+        this.GarantirDiretorioExiste(_storagePath);
 
-        // cria um guid que será concatenado ao nome do artista para formar o caminho completo do aquivo.
-        var guid = Guid.NewGuid();
-        var nomeArquivo = $"{guid}_{nomeNormalizado.Trim()}.{extensao}";
-        var caminhoCompleto = Path.Combine(_storagePath, nomeArquivo);
+        string nomeJpg = this.GerarNomeArquivoJpg(nomeMormalizado);
+
+        string caminhoCompleto = Path.Combine(_storagePath, nomeJpg);
 
         // converte o base64 para byte[] e salva no caminho completo.
         using var ms = new MemoryStream(Convert.FromBase64String(base64));
         using var fs = new FileStream(caminhoCompleto, FileMode.Create);
         await ms.CopyToAsync(fs);
 
-        // Retorna caminho absoluto do arquivo salvo em disco.
-        return caminhoCompleto;
-    }
-
-    /// <summary>
-    /// Método para concatenar o caminho completo do card de um artista ou banda.
-    /// </summary>
-    /// <param name="nomeCard">Nome do arquivo Card no storage</param>
-    /// <returns>Retorna o caminho completo para o Card</returns>
-    public string ConcatenarCaminhoCompletoCard (string nomeCard)
-    {
-        var caminhoCompleto = Path.Combine(_storagePath, nomeCard);
-
-        return caminhoCompleto;
+        return nomeJpg;
     }
 
     /// <summary>
     /// Método para ler uma imagem do disco e retornar seu conteúdo em Base64.
     /// </summary>
-    /// <param name="caminhoFisico">Caminho físico completo da imagem.</param>
+    /// <param name="NomeCard">Nome do arquivo do card da artista.</param>
     /// <returns>String Base64 representando a imagem.</returns>
-    public async Task<string> ObterImagemBase64Async(string caminhoFisico)
+    public async Task<string> ObterBase64Async(string NomeCard)
     {
+        string caminhoFisico = this.ConcatenarCaminhoCompletoCard(NomeCard);
+
         if (!File.Exists(caminhoFisico))
             throw new FileNotFoundException("Arquivo de imagem não encontrado.", caminhoFisico);
 
@@ -74,5 +57,40 @@ public class StorageService
         }
         return $"data:image/png;base64,{Convert.ToBase64String(bytes)}" ;
     }
+
+    /// <summary>
+    /// Método para concatenar o caminho completo do card de um artista ou banda.
+    /// </summary>
+    /// <param name="nomeCard">Nome do arquivo Card no storage</param>
+    /// <returns>Retorna o caminho completo para o Card</returns>
+    private string ConcatenarCaminhoCompletoCard(string nomeCard)
+    {
+        var caminhoCompleto = Path.Combine(_storagePath, nomeCard);
+
+        return caminhoCompleto;
+    }
+
+
+    /// <summary>
+    /// Verifica a existensia de um diretório e o cria se não existir.
+    /// </summary>
+    /// <param name="caminho">Caminho completo do diretório.</param>
+    private void GarantirDiretorioExiste(string caminho)
+    {
+        if (!Directory.Exists(caminho))
+            Directory.CreateDirectory(caminho);
+    }
+
+    /// <summary>
+    /// Gera um nome de arquivo único para a imagem .jpg, utilizando um GUID e o nome normalizado do artista.
+    /// </summary>
+    /// <param name="nomeNormalizado">Nome do arquivo normalizado</param>
+    /// <returns></returns>
+    private string GerarNomeArquivoJpg(string nomeNormalizado)
+    {
+        var guid = Guid.NewGuid();
+        return $"{guid}_{nomeNormalizado}.jpg";
+    }
+
 }
 

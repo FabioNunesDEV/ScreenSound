@@ -13,8 +13,8 @@ public static class ArtistasExtensions
                 artista.Id,
                 artista.Nome,
                 artista.Bio,
-                storageService.ConcatenarCaminhoCompletoCard(artista.FotoPerfil),
-                storageService.ObterImagemBase64Async(storageService.ConcatenarCaminhoCompletoCard(artista.FotoPerfil)).Result
+                artista.FotoPerfil,
+                storageService.ObterBase64Async(artista.FotoPerfil).Result
             )).ToList();
 
             return Results.Ok(resposta);
@@ -40,11 +40,11 @@ public static class ArtistasExtensions
         {
             var nome = artistaRequest.nome.Trim();
 
-            var caminhoImagem = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, "", artistaRequest.nome);
+            var nomeArquivo = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, artistaRequest.nome);
 
             var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
             {
-                FotoPerfil = caminhoImagem 
+                FotoPerfil = nome
             };
 
             dal.Adicionar(artista);
