@@ -1,16 +1,22 @@
 ﻿@using ScreenSound.WEB.bootstrap.Requests
 @inherits LayoutComponentBase
+@inject NavigationManager Navigation
 
 <div class="artista-card">
     <img class="artista-img" src="@Artista.Base64" alt="@Artista.Nome" />
     <div class="artista-card-body">
         <h4 class="artista-nome">@Artista.Nome</h4>
         <p class="artista-bio">@Artista.Bio</p>
-        <button class="btn btn-artista-detalhes">DETALHES</button>
+        <button class="btn btn-artista-detalhes" @onclick="IrParaDetalhes">DETALHES</button>
     </div>
 </div>
 
 @code {
     [Parameter]
     public ArtistaBase64Response Artista { get; set; }
+
+    private void IrParaDetalhes()
+    {
+        Navigation.NavigateTo($"/editarArtista/{Artista.Id}");
+    }
 }
