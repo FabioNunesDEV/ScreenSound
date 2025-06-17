@@ -1,26 +1,56 @@
-﻿namespace ScreenSound.API.EndPoints;
+﻿using ScreenSound.API.Services;
+
+namespace ScreenSound.API.EndPoints;
 public static class ArtistasExtensions
 {
     public static void AddEndPointsArtistas(this WebApplication app)
     {
-        app.MapGet("/artistas", 
-            ([FromServices] DAL<Artista> dal, 
-            [FromServices] StorageService storageService) =>
+        app.MapGet("/artistas", async ([FromServices] DAL<Artista> dal, [FromServices] StorageService storageService) =>
         {
             var artistas = dal.Listar(a => a.Musicas);
 
-            var resposta = artistas.Select(artista => new ArtistaBase64Response(
-                artista.Id,
-                artista.Nome,
-                artista.Bio,
-                artista.FotoPerfil,
-                storageService.ObterBase64Async(artista.FotoPerfil).Result
-            )).ToList();
+            var resposta = new List<ArtistaBase64Response>();
+            foreach (var artista in artistas)
+            {
+                var base64 = await storageService.ObterBase64Async(artista.FotoPerfil);
+                resposta.Add(new ArtistaBase64Response(
+                    artista.Id,
+                    artista.Nome,
+                    artista.Bio,
+                    artista.FotoPerfil,
+                    base64
+                ));
+            }
 
             return Results.Ok(resposta);
         });
 
-        app.MapGet("/artistas/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
+        app.MapGet("/artistas/id/{id:int}",
+            async ([FromServices] DAL<Artista> dal,
+            [FromServices] StorageService storageService,
+            int id) =>
+        {
+            var artista = dal.RecuperarPor(a => a.Id == id);
+            if (artista is null)
+            {
+                return Results.NotFound();
+            }
+
+            var base64 = await storageService.ObterBase64Async(artista.FotoPerfil);
+
+            ArtistaBase64Response resposta =  new ArtistaBase64Response(
+                artista.Id,
+                artista.Nome,
+                artista.Bio,
+                artista.FotoPerfil,
+                base64
+            );
+
+            return Results.Ok(resposta);
+        });
+
+
+        app.MapGet("/artistas/nome/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
             var artista = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
 
@@ -31,9 +61,9 @@ public static class ArtistasExtensions
 
             return Results.Ok(artista);
         });
-       
+
         app.MapPost("/artistas", async (
-            [FromServices] IHostEnvironment env, 
+            [FromServices] IHostEnvironment env,
             [FromServices] DAL<Artista> dal,
             [FromServices] StorageService storageService,
             [FromBody] ArtistaRequest artistaRequest) =>

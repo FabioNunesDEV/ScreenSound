@@ -18,6 +18,11 @@ public class ArtistasAPI
         return await _httpClient.GetFromJsonAsync<ICollection<ArtistaBase64Response>>("artistas");
     }
 
+    public async Task<ArtistaBase64Response?> GetArtistaPorIdAsync(int id)
+    {
+        return await _httpClient.GetFromJsonAsync<ArtistaBase64Response>($"artistas/id/{id}");
+    }
+
     public async Task AddArtistaAsync(ArtistaRequest artista)
     {
         await _httpClient.PostAsJsonAsync("artistas", artista);

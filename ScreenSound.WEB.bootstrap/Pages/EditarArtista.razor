@@ -1,7 +1,50 @@
 ﻿@page "/editarArtista/{id:int}"
+@inject ArtistasAPI artistasAPI
 
 <h3>EditarArtista</h3>
 
+<img src="@artistaRequestEdit.Base64" alt="Foto do Artista" style="max-width: 200px; max-height: 200px;" />
+<InputFile id="card-banda" OnChange="OnInputFileChange" accept="image/*" class="form-control mb-3" />
+
+<h4>@artistaRequestEdit.Nome</h4>
+
+<textarea class="form-control" rows="3" @bind="bioEditavel"></textarea>
+
+<input type="button" value="salvar" @onclick="Gravar" />
+
+
 @code {
 
+    [Parameter]
+    public int id { get; set; }
+
+    private ArtistaBase64Response? artista;
+    private ArtistaRequestEdit? artistaRequestEdit;
+    private string bioEditavel = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            artista = await artistasAPI.GetArtistaPorIdAsync(id);
+            if (artista is not null)
+            {
+                ArtistaRequestEdit artistaRequestEdit = new ArtistaRequestEdit()
+                    {
+                        Id = artista.Id,
+                        nome = artista.Nome,
+                        fotoPerfil = artista.FotoPerfil,
+                        bio = artista.Bio,
+                        base64 = artista.Base64
+                    };  
+
+            }
+        }
+        catch (Exception ex)
+        {
+            artista = null;
+            bioEditavel = string.Empty;
+            Console.WriteLine($"Erro ao carregar o artista: {ex.Message}");
+        }
+    }
 }
