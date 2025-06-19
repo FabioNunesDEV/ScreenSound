@@ -31,7 +31,6 @@ public static class ArtistasExtensions
             return Results.Ok(resposta);
         });
 
-
         app.MapGet("/artistas/nome/{nome}", ([FromServices] DAL<Artista> dal, string nome) =>
         {
             var artista = dal.RecuperarPor(a => a.Nome.ToUpper().Equals(nome.ToUpper()));
@@ -44,7 +43,7 @@ public static class ArtistasExtensions
             return Results.Ok(artista);
         });
 
-        app.MapPost("/artistas", async (
+        app.MapPost("/artistas", (
             [FromServices] IHostEnvironment env,
             [FromServices] DAL<Artista> dal,
             [FromServices] StorageService storageService,
@@ -52,11 +51,9 @@ public static class ArtistasExtensions
         {
             var nome = artistaRequest.nome.Trim();
 
-            var nomeArquivo = await storageService.SalvarImagemBase64Async(artistaRequest.fotoPerfil!, artistaRequest.nome);
-
             var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
-            {
-                FotoPerfil = nome
+            { 
+                FotoPerfil = artistaRequest.fotoPerfil ?? "card_padrao.jpg"
             };
 
             dal.Adicionar(artista);
@@ -93,13 +90,4 @@ public static class ArtistasExtensions
         });
     }
 
-    private static ICollection<ArtistaResponse> EntityListToResponseList(IEnumerable<Artista> listaDeArtistas)
-    {
-        return listaDeArtistas.Select(a => EntityToResponse(a)).ToList();
-    }
-
-    private static ArtistaResponse EntityToResponse(Artista artista)
-    {
-        return new ArtistaResponse(artista.Id, artista.Nome, artista.Bio, artista.FotoPerfil);
-    }
 }

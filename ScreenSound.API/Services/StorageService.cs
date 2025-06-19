@@ -18,23 +18,17 @@ public class StorageService
     /// Método para salvar uma imagem .jpg em formato Base64 no caminho de armazenamento definido.
     /// </summary>
     /// <param name="base64">base64 da imagem .jpg passada por parametro.</param>
-    /// <param name="nomeArtista">Nome do Artista para criar o card.</param>
-    public async Task<string> SalvarImagemBase64Async(string base64 , string nomeArtista)
+    /// <param name="nomeArquivo">Nome do Artista para criar o card.</param>
+    public async Task SalvarImagemBase64Async(string base64 , string nomeArquivo)
     {
-        string nomeMormalizado = Util.NormalizarString(nomeArtista);
-
         this.GarantirDiretorioExiste(_storagePath);
 
-        string nomeJpg = this.GerarNomeArquivoJpg(nomeMormalizado);
-
-        string caminhoCompleto = Path.Combine(_storagePath, nomeJpg);
+        string caminhoCompleto = Path.Combine(_storagePath, nomeArquivo);
 
         // converte o base64 para byte[] e salva no caminho completo.
         using var ms = new MemoryStream(Convert.FromBase64String(base64));
         using var fs = new FileStream(caminhoCompleto, FileMode.Create);
         await ms.CopyToAsync(fs);
-
-        return nomeJpg;
     }
 
     /// <summary>
@@ -42,7 +36,7 @@ public class StorageService
     /// </summary>
     /// <param name="NomeCard">Nome do arquivo do card da artista.</param>
     /// <returns>String Base64 representando a imagem.</returns>
-    public async Task<string> ObterBase64Async(string NomeCard)
+    public async Task<string> LerBase64Async(string NomeCard)
     {
         string caminhoFisico = this.ConcatenarCaminhoCompletoCard(NomeCard);
 
@@ -69,7 +63,6 @@ public class StorageService
 
         return caminhoCompleto;
     }
-
 
     /// <summary>
     /// Verifica a existensia de um diretório e o cria se não existir.
