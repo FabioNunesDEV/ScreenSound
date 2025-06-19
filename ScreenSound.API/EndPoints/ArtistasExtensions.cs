@@ -1,32 +1,17 @@
-﻿using ScreenSound.API.Services;
-
-namespace ScreenSound.API.EndPoints;
+﻿namespace ScreenSound.API.EndPoints;
 public static class ArtistasExtensions
 {
     public static void AddEndPointsArtistas(this WebApplication app)
     {
-        app.MapGet("/artistas", async ([FromServices] DAL<Artista> dal, [FromServices] StorageService storageService) =>
+        app.MapGet("/artistas", ([FromServices] DAL<Artista> dal) =>
         {
-            var artistas = dal.Listar(a => a.Musicas);
+            var artistas = dal.Listar(a => a.Nome);
 
-            var resposta = new List<ArtistaBase64Response>();
-            foreach (var artista in artistas)
-            {
-                var base64 = await storageService.ObterBase64Async(artista.FotoPerfil);
-                resposta.Add(new ArtistaBase64Response(
-                    artista.Id,
-                    artista.Nome,
-                    artista.Bio,
-                    artista.FotoPerfil,
-                    base64
-                ));
-            }
-
-            return Results.Ok(resposta);
+            return Results.Ok(artistas);
         });
 
         app.MapGet("/artistas/id/{id:int}",
-            async ([FromServices] DAL<Artista> dal,
+            ([FromServices] DAL<Artista> dal,
             [FromServices] StorageService storageService,
             int id) =>
         {
@@ -36,14 +21,11 @@ public static class ArtistasExtensions
                 return Results.NotFound();
             }
 
-            var base64 = await storageService.ObterBase64Async(artista.FotoPerfil);
-
-            ArtistaBase64Response resposta =  new ArtistaBase64Response(
+            ArtistaResponse resposta =  new ArtistaResponse(
                 artista.Id,
                 artista.Nome,
                 artista.Bio,
-                artista.FotoPerfil,
-                base64
+                artista.FotoPerfil
             );
 
             return Results.Ok(resposta);

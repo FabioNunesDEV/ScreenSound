@@ -1,4 +1,4 @@
-﻿namespace ScreenSound.API.Response;
+﻿namespace ScreenSound.Shared.Response;
 public record ArtistaResponse(
     int Id,
     string Nome,

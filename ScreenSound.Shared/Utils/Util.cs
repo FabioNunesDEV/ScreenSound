@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Text;
 
-namespace ScreenSound.API.Utils
+namespace ScreenSound.Shared.Utils
 {
     public static class Util
     {

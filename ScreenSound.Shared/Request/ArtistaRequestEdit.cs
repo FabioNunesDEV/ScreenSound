@@ -1,4 +1,4 @@
-﻿namespace ScreenSound.API.Requests;
+﻿namespace ScreenSound.Shared.Requests;
 public record ArtistaRequestEdit(
     int Id,
     string nome,

@@ -1,6 +1,4 @@
-﻿using ScreenSound.API.Response;
-
-namespace ScreenSound.API.EndPoints;
+﻿namespace ScreenSound.API.EndPoints;
 
 public static class GeneroExtesions
 {
