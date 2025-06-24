@@ -1,7 +1,7 @@
-﻿using ScreenSound.WEB.bootstrap.Requests;
-using ScreenSound.WEB.bootstrap.Responses;
+﻿using ScreenSound.Shared.Requests;
+using ScreenSound.Shared.Response;
 using System.Net.Http.Json;
-using System.Reflection.Metadata;
+
 
 namespace ScreenSound.WEB.bootstrap.Services;
 
@@ -13,14 +13,14 @@ public class ArtistasAPI
         _httpClient = httpClient;
     }
 
-    public async Task<ICollection<ArtistaBase64Response>?> GetArtistasAsync()
+    public async Task<ICollection<ArtistaResponse>?> GetArtistasAsync()
     {
-        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaBase64Response>>("artistas");
+        return await _httpClient.GetFromJsonAsync<ICollection<ArtistaResponse>>("artistas");
     }
 
-    public async Task<ArtistaBase64Response?> GetArtistaPorIdAsync(int id)
+    public async Task<ArtistaResponse?> GetArtistaPorIdAsync(int id)
     {
-        return await _httpClient.GetFromJsonAsync<ArtistaBase64Response>($"artistas/id/{id}");
+        return await _httpClient.GetFromJsonAsync<ArtistaResponse>($"artistas/id/{id}");
     }
 
     public async Task AddArtistaAsync(ArtistaRequest artista)

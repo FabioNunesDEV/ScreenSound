@@ -1,9 +1,8 @@
-﻿@using ScreenSound.WEB.bootstrap.Requests
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 @inject NavigationManager Navigation
 
 <div class="artista-card">
-    <img class="artista-img" src="@Artista.Base64" alt="@Artista.Nome" />
+    <img class="artista-img" src="" alt="@Artista.Nome" />
     <div class="artista-card-body">
         <h4 class="artista-nome">@Artista.Nome</h4>
         <p class="artista-bio">@Artista.Bio</p>
@@ -13,7 +12,7 @@
 
 @code {
     [Parameter]
-    public ArtistaBase64Response Artista { get; set; }
+    public ArtistaResponse Artista { get; set; }
 
     private void IrParaDetalhes()
     {

@@ -49,11 +49,11 @@ public static class ArtistasExtensions
             [FromServices] StorageService storageService,
             [FromBody] ArtistaRequest artistaRequest) =>
         {
-            var nome = artistaRequest.nome.Trim();
+            var nome = artistaRequest.Nome.Trim();
 
-            var artista = new Artista(artistaRequest.nome, artistaRequest.bio)
+            var artista = new Artista(artistaRequest.Nome, artistaRequest.Bio)
             { 
-                FotoPerfil = artistaRequest.fotoPerfil ?? "card_padrao.jpg"
+                FotoPerfil = artistaRequest.FotoPerfil ?? "card_padrao.jpg"
             };
 
             dal.Adicionar(artista);
@@ -81,9 +81,9 @@ public static class ArtistasExtensions
             {
                 return Results.NotFound();
             }
-            artistaAAtualizar.Nome = artistaRequestEdit.nome;
-            artistaAAtualizar.Bio = artistaRequestEdit.bio;
-            artistaAAtualizar.FotoPerfil = artistaRequestEdit.fotoPerfil;
+            artistaAAtualizar.Nome = artistaRequestEdit.Nome;
+            artistaAAtualizar.Bio = artistaRequestEdit.Bio;
+            artistaAAtualizar.FotoPerfil = artistaRequestEdit.FotoPerfil;
 
             dal.Atualizar(artistaAAtualizar);
             return Results.Ok();
