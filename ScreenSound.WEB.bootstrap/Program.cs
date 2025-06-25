@@ -20,4 +20,11 @@ builder.Services.AddHttpClient<ArtistasAPI>(client =>
     client.DefaultRequestHeaders.Add("Accept", "application/json");
 });
 
+// Novo serviço para o StorageAPI
+builder.Services.AddHttpClient<StorageAPI>(client =>
+{
+    client.BaseAddress = new Uri(apiUrl);
+    client.DefaultRequestHeaders.Add("Accept", "application/json");
+});
+
 await builder.Build().RunAsync();

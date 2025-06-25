@@ -2,7 +2,6 @@
 using ScreenSound.Shared.Response;
 using System.Net.Http.Json;
 
-
 namespace ScreenSound.WEB.bootstrap.Services;
 
 public class ArtistasAPI

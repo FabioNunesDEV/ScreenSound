@@ -5,7 +5,7 @@ public static class ArtistasExtensions
     {
         app.MapGet("/artistas", ([FromServices] DAL<Artista> dal) =>
         {
-            var artistas = dal.Listar(a => a.Nome);
+            var artistas = dal.Listar(a => a.Musicas);
 
             return Results.Ok(artistas);
         });
