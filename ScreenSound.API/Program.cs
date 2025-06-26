@@ -42,6 +42,7 @@ app.UseCors("AllowAll");
 app.AddEndPointsArtistas();
 app.AddEndPointsMusicas();
 app.AddEndPointGeneros();
+app.AddStorageEndpoints();
 
 app.UseSwagger();
 app.UseSwaggerUI();

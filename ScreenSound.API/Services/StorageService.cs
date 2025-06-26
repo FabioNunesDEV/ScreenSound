@@ -49,7 +49,10 @@ public class StorageService
             bytes = new byte[fs.Length];
             await fs.ReadAsync(bytes, 0, (int)fs.Length);
         }
-        return $"data:image/png;base64,{Convert.ToBase64String(bytes)}" ;
+
+        var base64 = Convert.ToBase64String(bytes);
+
+        return base64;
     }
 
     /// <summary>

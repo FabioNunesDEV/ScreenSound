@@ -3,7 +3,7 @@
 @inject StorageAPI StorageAPI  
 
 <div class="artista-card">  
-    <img class="artista-img" src="@base64" alt="@Artista.Nome" />  
+    <img class="artista-img" src="data:image/jpeg;base64,@base64" alt="@Artista.Nome" />
     <div class="artista-card-body">  
         <h4 class="artista-nome">@Artista.Nome</h4>  
         <p class="artista-bio">@Artista.Bio</p>  
@@ -11,7 +11,7 @@
     </div>  
 </div>  
 
-@code {  
+@code {
     [Parameter]  
     public ArtistaResponse Artista { get; set; }  
 
@@ -26,14 +26,17 @@
 
         if (!string.IsNullOrEmpty(Artista.FotoPerfil))  
         {  
-            base64 = await StorageAPI.DownloadFileAsync(Artista.FotoPerfil);  
+            base64 = await StorageAPI.DownloadFileAsync(Artista.FotoPerfil);
         }  
         else  
         {  
             base64 = await StorageAPI.DownloadFileAsync("card_padrao.jpg");
         }  
-    }  
 
+        // Remove aspas extras, se existirem
+        base64 = base64?.Trim('"') ?? string.Empty;
+    }  
+    
     private void IrParaDetalhes()  
     {  
         Navigation.NavigateTo($"/editarArtista/{Artista.Id}");  
