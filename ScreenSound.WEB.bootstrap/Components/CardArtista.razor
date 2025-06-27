@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase  
-@inject NavigationManager Navigation  
-@inject StorageAPI StorageAPI  
+@inject NavigationManager navigation  
+@inject StorageAPI storageAPI  
 
 <div class="artista-card">  
     <img class="artista-img" src="data:image/jpeg;base64,@base64" alt="@Artista.Nome" />
@@ -17,7 +17,7 @@
 
     private string base64 = "";  
 
-    protected override async Task OnInitializedAsync()  
+    protected override async Task OnParametersSetAsync()
     {  
         if (Artista == null)  
         {  
@@ -26,11 +26,11 @@
 
         if (!string.IsNullOrEmpty(Artista.FotoPerfil))  
         {  
-            base64 = await StorageAPI.DownloadFileAsync(Artista.FotoPerfil);
+            base64 = await storageAPI.DownloadFileAsync(Artista.FotoPerfil);
         }  
         else  
         {  
-            base64 = await StorageAPI.DownloadFileAsync("card_padrao.jpg");
+            base64 = await storageAPI.DownloadFileAsync("card_padrao.jpg");
         }  
 
         // Remove aspas extras, se existirem
@@ -39,6 +39,6 @@
     
     private void IrParaDetalhes()  
     {  
-        Navigation.NavigateTo($"/editarArtista/{Artista.Id}");  
+        navigation.NavigateTo($"/editarArtista/{Artista.Id}");  
     }  
 }

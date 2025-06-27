@@ -1,17 +1,25 @@
 ﻿@page "/editarArtista/{id:int}"
 @inject ArtistasAPI artistasAPI
+@inject StorageAPI storageAPI
+@inject NavigationManager Navigation
 
 <h3>EditarArtista</h3>
 
-<img src="@base64" alt="Foto do Artista" style="max-width: 200px; max-height: 200px;" />
-<InputFile id="card-banda" OnChange="OnInputFileChange" accept="image/*" class="form-control mb-3" />
+@if (!string.IsNullOrEmpty(alertMessage))
+{
+    <div class="alert @alertClass" role="alert">
+        @alertMessage
+    </div>
+}
 
-<h4>@artistaRequestEdit.Nome</h4>
+<img src="data:image/jpeg;base64,@base64" alt="Foto do Artista" style="max-width: 200px; max-height: 200px;" />
+<InputFile id="card-banda" OnChange="OnInputFileChange" accept="image/jpeg" class="form-control mb-3" />
+
+<h4>@artistaRequestEdit?.Nome</h4>
 
 <textarea class="form-control" rows="3" @bind="bioEditavel"></textarea>
 
-<input type="button" value="salvar" @onclick="Gravar" />
-
+<input type="button" class="btn btn-info" value="salvar" @onclick="Gravar" />
 
 @code {
 
@@ -22,6 +30,10 @@
     private ArtistaRequestEdit? artistaRequestEdit;
     private string bioEditavel = string.Empty;
     private string? base64 = "";
+
+    // Variáveis para mensagem
+    private string alertMessage = string.Empty;
+    private string alertClass = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
@@ -34,9 +46,22 @@
                 (
                     artista.Id,
                     artista.Nome,
-                    artista.FotoPerfil,
-                    artista.Bio
+                    artista.Bio,
+                    artista.FotoPerfil
                 );
+
+                bioEditavel = artista.Bio;
+
+                if (!string.IsNullOrEmpty(artista.FotoPerfil))
+                {
+                    base64 = await storageAPI.DownloadFileAsync(artista.FotoPerfil);
+                }
+                else
+                {
+                    base64 = await storageAPI.DownloadFileAsync("card_padrao.jpg");
+                }
+
+                base64 = base64?.Trim('"') ?? string.Empty;
             }
         }
         catch (Exception ex)
@@ -49,10 +74,45 @@
 
     private async Task OnInputFileChange(InputFileChangeEventArgs e)
     {
-
+        var file = e.File;
+        if (file != null)
+        {
+            using var stream = file.OpenReadStream(maxAllowedSize: 5 * 1024 * 1024); // 5MB
+            using var ms = new MemoryStream();
+            await stream.CopyToAsync(ms);
+            var bytes = ms.ToArray();
+            base64 = Convert.ToBase64String(bytes);
+        }
     }
-    private void Gravar(MouseEventArgs args)
+
+    private async Task Gravar(MouseEventArgs args)
     {
-        throw new NotImplementedException();
+        try
+        {
+            if (artistaRequestEdit is not null)
+            {
+                // Atualiza a imagem se ela foi alterada
+                if (!string.IsNullOrEmpty(base64))
+                {
+                    await storageAPI.UploadFileAsync(base64, artista.FotoPerfil);
+                }
+
+                var updatedArtista = artistaRequestEdit with { Bio = bioEditavel };
+                await artistasAPI.UpdateArtistaAsync(updatedArtista);
+
+                alertMessage = "Artista atualizado com sucesso!";
+                alertClass = "alert-success";
+                StateHasChanged();
+
+                await Task.Delay(2000);
+                Navigation.NavigateTo("/artistas"); 
+            }
+        }
+        catch (Exception ex)
+        {
+            alertMessage = "Erro ao atualizar artista: " + ex.Message;
+            alertClass = "alert-danger";
+            StateHasChanged();
+        }
     }
 }
