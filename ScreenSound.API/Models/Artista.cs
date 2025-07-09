@@ -8,11 +8,11 @@
         {
             Nome = nome;
             Bio = bio;
-            FotoPerfil = "card_padrao.jpg";
+            FotoPerfil = null;
         }
 
         public string Nome { get; set; }
-        public string FotoPerfil { get; set; }
+        public string? FotoPerfil { get; set; }
         public string Bio { get; set; }
         public int Id { get; set; }
 
@@ -34,7 +34,7 @@
         {
             return $@"Id: {Id}
             Nome: {Nome}
-            Foto de Perfil: {FotoPerfil}
+            Foto de Perfil: {FotoPerfil ?? ""}
             Bio: {Bio}";
         }
     }

@@ -53,7 +53,7 @@ public static class ArtistasExtensions
 
             var artista = new Artista(artistaRequest.Nome, artistaRequest.Bio)
             { 
-                FotoPerfil = artistaRequest.FotoPerfil ?? "card_padrao.jpg"
+                FotoPerfil = artistaRequest.FotoPerfil
             };
 
             dal.Adicionar(artista);
@@ -89,5 +89,4 @@ public static class ArtistasExtensions
             return Results.Ok();
         });
     }
-
 }

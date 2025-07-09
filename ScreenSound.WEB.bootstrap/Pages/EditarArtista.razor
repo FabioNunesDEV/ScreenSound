@@ -30,6 +30,7 @@
     private ArtistaRequestEdit? artistaRequestEdit;
     private string bioEditavel = string.Empty;
     private string? base64 = "";
+    private string? fotoPerfil = null;
 
     // Variáveis para mensagem
     private string alertMessage = string.Empty;
@@ -51,14 +52,19 @@
                 );
 
                 bioEditavel = artista.Bio;
+                fotoPerfil = artista.FotoPerfil;
 
                 if (!string.IsNullOrEmpty(artista.FotoPerfil))
                 {
                     base64 = await storageAPI.DownloadFileAsync(artista.FotoPerfil);
+                    fotoPerfil = artista.FotoPerfil;
                 }
                 else
                 {
                     base64 = await storageAPI.DownloadFileAsync("card_padrao.jpg");
+
+                    var nomeArquivo = Util.NormalizarString(artista.Nome);
+                    fotoPerfil = Util.GerarNomeUnicoArquivo($"{nomeArquivo}.jpg");
                 }
 
                 base64 = base64?.Trim('"') ?? string.Empty;
@@ -82,6 +88,8 @@
             await stream.CopyToAsync(ms);
             var bytes = ms.ToArray();
             base64 = Convert.ToBase64String(bytes);
+
+
         }
     }
 
@@ -94,10 +102,14 @@
                 // Atualiza a imagem se ela foi alterada
                 if (!string.IsNullOrEmpty(base64))
                 {
-                    await storageAPI.UploadFileAsync(base64, artista.FotoPerfil);
+                    await storageAPI.UploadFileAsync(base64, fotoPerfil);
                 }
 
-                var updatedArtista = artistaRequestEdit with { Bio = bioEditavel };
+                var updatedArtista = artistaRequestEdit with
+                {
+                    Bio = bioEditavel,
+                    FotoPerfil = fotoPerfil
+                };
                 await artistasAPI.UpdateArtistaAsync(updatedArtista);
 
                 alertMessage = "Artista atualizado com sucesso!";
@@ -105,7 +117,7 @@
                 StateHasChanged();
 
                 await Task.Delay(2000);
-                Navigation.NavigateTo("/artistas"); 
+                Navigation.NavigateTo("/artistas");
             }
         }
         catch (Exception ex)

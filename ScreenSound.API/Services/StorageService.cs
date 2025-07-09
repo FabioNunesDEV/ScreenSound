@@ -18,7 +18,7 @@ public class StorageService
     /// Método para salvar uma imagem .jpg em formato Base64 no caminho de armazenamento definido.
     /// </summary>
     /// <param name="base64">base64 da imagem .jpg passada por parametro.</param>
-    /// <param name="nomeArquivo">Nome do Artista para criar o card.</param>
+    /// <param name="nomeArquivo">Nome do arquivo que será salvo</param>
     public async Task SalvarImagemBase64Async(string base64 , string nomeArquivo)
     {
         this.GarantirDiretorioExiste(_storagePath);
