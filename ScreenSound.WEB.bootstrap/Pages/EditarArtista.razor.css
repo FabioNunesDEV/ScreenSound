@@ -1,0 +1,64 @@
+﻿.panel-artista-editar {
+    width: 320px;
+    background: #353340;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    border: 4px solid #3a3a4d;
+    margin: 24px;
+    padding: 0;
+    align-items: center;
+}
+
+.artista-img {
+    width: 90%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    display: block;
+    margin: 20px auto 0 auto; /* 20px topo, centralizado */
+}
+
+.artista-nome {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.form-control, textarea.form-control {
+    background: #23272b;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+    .form-control:focus, textarea.form-control:focus {
+        background: #23272b;
+        color: #fff;
+        border-color: #ffc107;
+        box-shadow: none;
+    }
+
+.btn-artista-salvar {
+    background: #23272b;
+    color: #ffc107;
+    border: 2px solid #ffc107;
+    border-radius: 8px;
+    padding: 8px 32px;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.2s, color 0.2s;
+}
+
+    .btn-artista-salvar:hover, .btn-artista-salvar:focus {
+        background: #23272b;
+        color: #fff;
+        border-color: #ffc107;
+    }
+
+label {
+    color: #ffc107;
+}
